@@ -1,0 +1,57 @@
+---
+title: "Regression"
+author: "Zackary Frazier"
+date: "4/13/2020"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+library(gapminder)
+library(tidyverse)
+library(ggplot2)
+data(gapminder)
+
+gapminder
+```
+
+# Exercise 1: Make a scatter plot of life expectancy across time
+
+```{r lifevtime}
+gapminder %>% 
+  ggplot(aes(x = year, y = lifeExp)) +
+  geom_point() +
+  labs(title="Life Expectancy over Time", x="Year", y="Life Expectancy")
+  
+
+```
+# Question 1: Is there a general trend (e.g., increasing or decreasing) for life expectancy across time? Is this trend linear? (answering this qualitatively from the plot, you will do a statistical analysis of this question shortly)
+
+It seems the general trend is an increasing life expectancy over time. From 1950 to 2000 the max life expectancies and smallest life expectancies all increased by about 20 years.
+
+## A slightly different way of making the same plot is looking at the distribution of life expectancy across countries as it changes over time:
+
+```{r different_way}
+gapminder %>%
+  ggplot(aes(x=factor(year), y=lifeExp)) +
+    geom_violin() +
+    labs(title="Life expectancy over time",
+         x = "year",
+         y = "life expectancy")
+```
+
+## This type of plot is called a violin plot, and it displays the distribution of the variable in the y-axis for each value of the variable in the x-axis.
+
+# Question 2: How would you describe the distribution of life expectancy across countries for individual years? Is it skewed, or not? Unimodal or not? Symmetric around its center?
+
+It appears that it began slightly bimodal, with one focus around the bottom of the distribution, and another at the top. This probably reflects the higher levels inequality that were experienced throughout most of the 20th century. As the years enter the 21st century the lower end of the distribution expands a bit, but the graph generally moves toward a unimodal distribution centered at the top (at around 70 year life expectancies). These distributions are certainly not symmetric. They begin heavily skewed toward the lower end of life expectancy, and over time the skew gradually moves toward the higher end of life expectancy.
+
+## Based on this plot, consider the following questions.
+
+# Question 3: Suppose I fit a linear regression model of life expectancy vs. year (treating it as a continuous variable), and test for a relationship between year and life expectancy, will you reject the null hypothesis of no relationship? (do this without fitting the model yet. I am testing your intuition.)
+
+Yes. I would reject that hypothesis. The scatter plot and the violin plots clearly show some relationship between year and life expectancy.
+
+# Question 4: What would a violin plot of residuals from the linear model in Question 3 vs. year look like? (Again, don’t do the analysis yet, answer this intuitively)
+
+
+
