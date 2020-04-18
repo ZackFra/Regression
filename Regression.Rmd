@@ -112,7 +112,7 @@ augment(regression) %>%
 
 # Question 9: Is there a dependence between model residual and continent? If so, what would that suggest when performing a regression analysis of life expectancy across time?
 
-It appears so, yes. It seems that model residuals are more accurate for people in Oceania and Europe, and can be all over the place for people born in Asia, Africa and the Americas, with African and Asia having the highest variances. 
+It appears so, yes. It seems that model residuals are more accurate for people in Oceania and Europe, and can be all over the place for people born in Asia, Africa and the Americas, with Africa and Asia having the highest variances. 
 
 # Exercise 5: Use geom_smooth(method=lm) in ggplot as part of a scatter plot of life expectancy vs. year, grouped by continent (e.g., using the color aesthetic mapping).
 
