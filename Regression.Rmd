@@ -116,7 +116,7 @@ It appears so, yes. It seems that model residuals are more accurate for people i
 
 # Exercise 5: Use geom_smooth(method=lm) in ggplot as part of a scatter plot of life expectancy vs. year, grouped by continent (e.g., using the color aesthetic mapping).
 
-```{r lifevtime}
+```{r life_vtime}
 
 gapminder %>% 
   ggplot(aes(x = year, y = lifeExp, color=continent)) +
@@ -141,7 +141,7 @@ tidy(regression)
 
 # Question 11: Are all parameters in the model significantly different from zero? If not, which are not significantly different from zero?
 
-No. The paramater for the effect of year on life expectancy is roughly 0.29, stating that every year the average life expectancy across the planet increases by 0.29 years per year. Also the the parameter for the effect of year on life expectancy in Asia is substantially higher than 0. This paramter having a value of 0.16 implies the life expectancy in Asia is increasing substantially faster than the life expectancies on other continents.
+No. The paramater for the effect of year on life expectancy in Africa is roughly 0.29, stating that every year the average life expectancy across Africa increases by 0.29 years per year. Also the the parameter for the effect of year on life expectancy in Asia is substantially higher than 0. This paramter having a value of 0.16 implies the life expectancy in Asia is increasing substantially faster than the life expectancies on other continents.
 
 # Question 12: On average, by how much does life expectancy increase each year for each continent? (Provide code to answer this question by extracting relevant estimates from model fit)
 
@@ -149,8 +149,36 @@ No. The paramater for the effect of year on life expectancy is roughly 0.29, sta
 regression <- lm(lifeExp ~ year*continent, data=gapminder)
 tidy(regression) %>% 
   filter(-2 < estimate & estimate < 2 ) %>% 
+  mutate(term = ifelse(term == 'year', 'year:continentAfrica', term)) %>% 
   select(term, estimate)
   
 ```
 
 # Exercise 7: Make a residuals vs. year violin plot for the interaction model. Comment on how well it matches assumptions of the linear regression model. Do the same for a residuals vs. fitted values model.
+
+```{r residual_v_violin}
+regression <- lm(lifeExp ~ year + continent, data=gapminder)
+augment(regression) %>% 
+  ggplot(aes(x=year, y=.resid)) +
+  geom_violin() +
+  labs(title="residuals vs year",
+     x = "year",
+     y = "residuals")
+
+```
+
+The symmetry of this violin plot suggests that our variance is constant. This also suggest that our residuals are indeed independent and identically distributed. 
+
+
+```{r residual_v_fittedvalues}
+regression <- lm(lifeExp ~ year + continent, data=gapminder)
+augment(regression) %>% 
+  ggplot(aes(x=.fitted, y=.resid)) +
+  geom_violin() +
+  labs(title="residuals vs fitted values",
+     x = "fitted",
+     y = "residuals")
+
+```
+
+This plot is also symmetric. This implies our inital assumption that the data is a linear distribution is also true.
