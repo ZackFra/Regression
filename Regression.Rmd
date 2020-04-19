@@ -161,24 +161,24 @@ regression <- lm(lifeExp ~ year + continent, data=gapminder)
 augment(regression) %>% 
   ggplot(aes(x=year, y=.resid)) +
   geom_violin() +
-  labs(title="residuals vs year",
+  labs(title="residuals across time",
      x = "year",
      y = "residuals")
 
 ```
 
-The symmetry of this violin plot suggests that our variance is constant. This also suggest that our residuals are indeed independent and identically distributed. 
+The general symmetry of this violin plot suggests that our variance is constant. This also suggest that our residuals are indeed independent and identically distributed. 
 
 
 ```{r residual_v_fittedvalues}
 regression <- lm(lifeExp ~ year + continent, data=gapminder)
 augment(regression) %>% 
   ggplot(aes(x=.fitted, y=.resid)) +
-  geom_violin() +
+  geom_point() +
   labs(title="residuals vs fitted values",
      x = "fitted",
      y = "residuals")
 
 ```
 
-This plot is also symmetric. This implies our inital assumption that the data is a linear distribution is also true.
+This plot is centered around 0. This implies our inital assumption that the data is a linear distribution is also true.
